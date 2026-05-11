@@ -1,1590 +1,353 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>约书亚 Joshua · 高定美发</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Jost:wght@200;300;400;500&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
-<style>
-/* ═══════════════════════════════════════════
-   DESIGN SYSTEM — ATELIER CHAUD
-   主色调：暖炭黑 + 香槟金 + 裸玫瑰
-═══════════════════════════════════════════ */
-:root {
-  --bg-deep:    #15110D;   /* 深暖炭 主背景 */
-  --bg-mid:     #1E1812;   /* 次背景 */
-  --bg-card:    #231D16;   /* 卡片背景 */
-  --bg-light:   #2C2319;   /* 亮面背景 */
-
-  --gold:       #C9A96E;   /* 香槟金 主强调 */
-  --gold-dim:   rgba(201,169,110,.18);
-  --gold-line:  rgba(201,169,110,.22);
-
-  --rose:       #B07468;   /* 裸玫瑰 辅助强调 */
-  --rose-dim:   rgba(176,116,104,.15);
-
-  --ivory:      #F0E4CC;   /* 主文字 */
-  --ivory-70:   rgba(240,228,204,.70);
-  --ivory-40:   rgba(240,228,204,.40);
-  --ivory-20:   rgba(240,228,204,.18);
-  --ivory-10:   rgba(240,228,204,.08);
-
-  --ff-serif: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
-  --ff-sans:  'Jost', sans-serif;
-
-  --ease: cubic-bezier(.22,.68,0,1.2);
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg-deep);
-  color: var(--ivory);
-  font-family: var(--ff-sans);
-  font-weight: 300;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-/* ── NOISE OVERLAY ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.042'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* ══════════════════════════════════════════
-   NAV
-══════════════════════════════════════════ */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 48px;
-  height: 68px;
-  background: rgba(21,17,13,.88);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--gold-line);
-  transition: background .4s;
-}
-
-.nav-logo {
-  font-family: var(--ff-serif);
-  font-size: 17px;
-  font-weight: 400;
-  color: var(--ivory);
-  letter-spacing: .04em;
-  text-decoration: none;
-}
-.nav-logo em {
-  font-style: italic;
-  color: var(--gold);
-}
-
-.nav-links {
-  display: flex;
-  gap: 36px;
-  list-style: none;
-}
-.nav-links a {
-  font-size: 11px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--ivory-40);
-  text-decoration: none;
-  transition: color .25s;
-}
-.nav-links a:hover { color: var(--ivory); }
-
-.nav-book {
-  font-size: 11px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  padding: 9px 22px;
-  background: var(--gold);
-  color: var(--bg-deep);
-  font-weight: 500;
-  border-radius: 1px;
-  cursor: pointer;
-  transition: opacity .2s;
-  text-decoration: none;
-}
-.nav-book:hover { opacity: .88; }
-
-/* ══════════════════════════════════════════
-   HERO
-══════════════════════════════════════════ */
-.hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: end;
-  padding: 140px 0 0;
-  position: relative;
-  overflow: hidden;
-}
-
-/* diagonal texture line */
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 60px; left: 50%;
-  width: 1px;
-  height: 60%;
-  background: linear-gradient(180deg, transparent, var(--gold-line) 40%, transparent);
-}
-
-.hero-left {
-  padding: 0 0 80px 72px;
-  align-self: end;
-}
-
-.hero-kicker {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 32px;
-  opacity: 0;
-  animation: fadeUp .8s var(--ease) .2s forwards;
-}
-.hero-kicker-line {
-  width: 40px;
-  height: 1px;
-  background: var(--gold);
-}
-.hero-kicker-text {
-  font-size: 10px;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.hero-title {
-  font-family: var(--ff-serif);
-  font-size: clamp(52px, 5.5vw, 80px);
-  font-weight: 400;
-  line-height: 1.06;
-  color: var(--ivory);
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp .9s var(--ease) .35s forwards;
-}
-.hero-title em {
-  font-style: italic;
-  color: var(--gold);
-  display: block;
-}
-.hero-title .rose-word {
-  color: var(--rose);
-  font-style: italic;
-}
-
-.hero-desc {
-  font-size: 13.5px;
-  color: var(--ivory-40);
-  line-height: 1.85;
-  max-width: 320px;
-  margin-bottom: 44px;
-  font-weight: 300;
-  opacity: 0;
-  animation: fadeUp .9s var(--ease) .5s forwards;
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  opacity: 0;
-  animation: fadeUp .9s var(--ease) .65s forwards;
-}
-.btn-gold {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 32px;
-  background: var(--gold);
-  color: var(--bg-deep);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  border-radius: 1px;
-  cursor: pointer;
-  transition: all .25s;
-  text-decoration: none;
-}
-.btn-gold:hover { background: var(--ivory); }
-
-.btn-ghost {
-  font-size: 11px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ivory-40);
-  text-decoration: none;
-  border-bottom: 1px solid var(--ivory-20);
-  padding-bottom: 3px;
-  transition: color .25s, border-color .25s;
-}
-.btn-ghost:hover { color: var(--ivory-70); border-color: var(--ivory-40); }
-
-/* hero right — visual panel */
-.hero-right {
-  height: 100vh;
-  background: var(--bg-card);
-  position: relative;
-  overflow: hidden;
-  opacity: 0;
-  animation: fadeIn 1.2s ease .4s forwards;
-}
-
-.hero-right-img {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(160deg, #2a1f15 0%, #1a1209 60%, #0d0907 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* placeholder grid for photos */
-.hero-photo-grid {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-}
-.hero-photo-cell {
-  background: var(--bg-mid);
-  position: relative;
-  overflow: hidden;
-}
-.hero-photo-cell::after {
-  content: attr(data-label);
-  position: absolute;
-  bottom: 14px; left: 14px;
-  font-size: 9px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--ivory-40);
-}
-.cell-1 { background: linear-gradient(135deg,#2d1e13,#1a110a); }
-.cell-2 { background: linear-gradient(135deg,#251a12,#150e08); grid-row: 1 / 3; }
-.cell-3 { background: linear-gradient(135deg,#211711,#180f09); }
-
-.hero-overlay-text {
-  position: absolute;
-  bottom: 40px; right: 40px;
-  text-align: right;
-}
-.hero-overlay-num {
-  font-family: var(--ff-serif);
-  font-size: 72px;
-  font-weight: 400;
-  line-height: 1;
-  color: var(--ivory-10);
-  font-style: italic;
-}
-.hero-overlay-label {
-  font-size: 9px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--ivory-20);
-}
-
-.hero-scroll {
-  position: absolute;
-  bottom: 40px;
-  left: 72px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  opacity: 0;
-  animation: fadeIn 1s ease 1.2s forwards;
-}
-.hero-scroll-bar {
-  width: 1px;
-  height: 36px;
-  background: linear-gradient(180deg, transparent, var(--gold));
-}
-.hero-scroll-text {
-  font-size: 9px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--ivory-20);
-  writing-mode: vertical-rl;
-}
-
-/* ══════════════════════════════════════════
-   STATS BAR
-══════════════════════════════════════════ */
-.stats-bar {
-  background: var(--bg-mid);
-  border-top: 1px solid var(--gold-line);
-  border-bottom: 1px solid var(--gold-line);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.stat-item {
-  padding: 32px 0;
-  text-align: center;
-  border-right: 1px solid var(--gold-line);
-  position: relative;
-}
-.stat-item:last-child { border-right: none; }
-
-.stat-num {
-  font-family: var(--ff-serif);
-  font-size: 36px;
-  font-weight: 400;
-  color: var(--gold);
-  font-style: italic;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-.stat-label {
-  font-size: 10px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--ivory-40);
-}
-
-/* ══════════════════════════════════════════
-   SECTION SHARED
-══════════════════════════════════════════ */
-.section-header {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 64px;
-}
-.section-en {
-  font-size: 10px;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--gold);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.section-en::before {
-  content: '';
-  width: 28px;
-  height: 1px;
-  background: var(--gold);
-}
-.section-title {
-  font-family: var(--ff-serif);
-  font-size: clamp(38px, 4vw, 56px);
-  font-weight: 400;
-  color: var(--ivory);
-  line-height: 1.1;
-}
-.section-title em {
-  font-style: italic;
-  color: var(--gold);
-}
-
-/* ══════════════════════════════════════════
-   SERVICES
-══════════════════════════════════════════ */
-.services {
-  padding: 120px 72px;
-  background: var(--bg-deep);
-}
-
-.services-layout {
-  display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 80px;
-  align-items: start;
-}
-
-.services-sticky {
-  position: sticky;
-  top: 100px;
-}
-.services-body-text {
-  font-size: 13px;
-  color: var(--ivory-40);
-  line-height: 1.9;
-  margin-bottom: 36px;
-  max-width: 300px;
-}
-.services-note {
-  font-size: 10px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--rose);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.services-note::before {
-  content: '';
-  width: 16px;
-  height: 1px;
-  background: var(--rose);
-}
-
-.svc-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.svc-item {
-  display: grid;
-  grid-template-columns: 52px 1fr auto;
-  gap: 20px;
-  align-items: start;
-  padding: 32px 0;
-  border-bottom: 1px solid var(--gold-line);
-  cursor: pointer;
-  transition: background .2s;
-}
-.svc-item:first-child { border-top: 1px solid var(--gold-line); }
-.svc-item:hover { background: var(--ivory-10); padding-left: 12px; }
-
-.svc-num {
-  font-family: var(--ff-serif);
-  font-size: 12px;
-  font-style: italic;
-  color: var(--ivory-20);
-  padding-top: 6px;
-}
-.svc-en {
-  font-size: 9px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 5px;
-}
-.svc-name {
-  font-family: var(--ff-serif);
-  font-size: 24px;
-  font-weight: 400;
-  color: var(--ivory);
-  margin-bottom: 8px;
-}
-.svc-desc {
-  font-size: 12px;
-  color: var(--ivory-40);
-  line-height: 1.7;
-  max-width: 340px;
-}
-.svc-tags {
-  display: flex;
-  gap: 6px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-.svc-tag {
-  font-size: 9px;
-  letter-spacing: .1em;
-  padding: 3px 10px;
-  border: 1px solid var(--gold-line);
-  color: var(--ivory-40);
-  border-radius: 99px;
-}
-.svc-right {
-  text-align: right;
-  padding-top: 6px;
-}
-.svc-price {
-  font-family: var(--ff-serif);
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--gold);
-  font-style: italic;
-  white-space: nowrap;
-}
-.svc-unit {
-  font-size: 10px;
-  color: var(--ivory-40);
-  letter-spacing: .08em;
-  margin-top: 2px;
-}
-.svc-arrow {
-  display: block;
-  color: var(--ivory-20);
-  font-size: 16px;
-  margin-top: 8px;
-  transition: transform .2s, color .2s;
-}
-.svc-item:hover .svc-arrow {
-  transform: translateX(4px);
-  color: var(--gold);
-}
-
-/* ══════════════════════════════════════════
-   GALLERY BAND
-══════════════════════════════════════════ */
-.gallery-band {
-  padding: 0 72px 120px;
-  background: var(--bg-deep);
-}
-
-.gallery-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 36px;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  grid-template-rows: 280px 220px;
-  gap: 6px;
-}
-
-.gallery-cell {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-.gallery-cell:first-child { grid-row: 1 / 3; }
-
-.gallery-cell-bg {
-  width: 100%; height: 100%;
-  transition: transform .6s ease;
-}
-.gallery-cell:hover .gallery-cell-bg { transform: scale(1.04); }
-
-.gc-1 .gallery-cell-bg { background: linear-gradient(135deg,#2e1e14,#1a0f09); }
-.gc-2 .gallery-cell-bg { background: linear-gradient(160deg,#261913,#13090566); }
-.gc-3 .gallery-cell-bg { background: linear-gradient(135deg,#20160f,#0f0806); }
-.gc-4 .gallery-cell-bg { background: linear-gradient(160deg,#2b1d15,#160d08); }
-.gc-5 .gallery-cell-bg { background: linear-gradient(135deg,#1e1410,#0e0906); }
-
-.gallery-cell-label {
-  position: absolute;
-  bottom: 16px; left: 16px;
-  font-size: 9px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--ivory-40);
-}
-
-.gallery-icon {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ivory-10);
-  font-size: 28px;
-}
-/* SVG scissors placeholder */
-.scissors-icon { opacity: .3; }
-
-.gallery-link {
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--gold);
-  text-decoration: none;
-  border-bottom: 1px solid var(--gold-line);
-  padding-bottom: 3px;
-  transition: opacity .2s;
-}
-.gallery-link:hover { opacity: .7; }
-
-/* ══════════════════════════════════════════
-   TEAM
-══════════════════════════════════════════ */
-.team {
-  padding: 120px 72px;
-  background: var(--bg-mid);
-  border-top: 1px solid var(--gold-line);
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 56px;
-}
-
-.team-card {
-  position: relative;
-  cursor: pointer;
-}
-
-.team-photo {
-  aspect-ratio: 3/4;
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.team-photo-bg {
-  width: 100%; height: 100%;
-  transition: transform .5s ease;
-}
-.tp-1 { background: linear-gradient(160deg,#2d2018,#180f09); }
-.tp-2 { background: linear-gradient(160deg,#271b12,#130b07); }
-.tp-3 { background: linear-gradient(160deg,#2a1d14,#170d08); }
-.tp-4 { background: linear-gradient(160deg,#231813,#100806); }
-.team-card:hover .team-photo-bg { transform: scale(1.03); }
-
-.team-photo-icon {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.team-photo-icon svg {
-  width: 36px; height: 36px;
-  opacity: .18;
-}
-
-.team-photo-overlay {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 40%;
-  background: linear-gradient(transparent, rgba(15,9,6,.7));
-}
-
-.team-role {
-  font-size: 9px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 4px;
-}
-.team-name {
-  font-family: var(--ff-serif);
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--ivory);
-  margin-bottom: 2px;
-}
-.team-name-en {
-  font-size: 11px;
-  color: var(--ivory-40);
-  letter-spacing: .04em;
-}
-.team-spec {
-  font-size: 11px;
-  color: var(--ivory-40);
-  margin-top: 8px;
-  line-height: 1.6;
-}
-
-/* ══════════════════════════════════════════
-   TESTIMONIALS
-══════════════════════════════════════════ */
-.testimonials {
-  padding: 120px 72px;
-  background: var(--bg-deep);
-}
-
-.testi-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 56px;
-}
-
-.testi-card {
-  background: var(--bg-card);
-  border: 1px solid var(--gold-line);
-  border-radius: 2px;
-  padding: 36px 28px;
-  position: relative;
-  transition: border-color .25s;
-}
-.testi-card:hover { border-color: rgba(201,169,110,.45); }
-
-.testi-quote-mark {
-  font-family: var(--ff-serif);
-  font-size: 64px;
-  font-weight: 400;
-  color: var(--gold);
-  opacity: .25;
-  line-height: 1;
-  margin-bottom: -16px;
-}
-.testi-text {
-  font-size: 13.5px;
-  color: var(--ivory-70);
-  line-height: 1.85;
-  font-style: italic;
-  font-family: var(--ff-serif);
-  font-weight: 400;
-  margin-bottom: 28px;
-}
-.testi-divider {
-  width: 28px;
-  height: 1px;
-  background: var(--gold);
-  margin-bottom: 16px;
-}
-.testi-author {
-  font-size: 12px;
-  color: var(--ivory);
-  font-weight: 400;
-  letter-spacing: .04em;
-}
-.testi-meta {
-  font-size: 10px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--ivory-40);
-  margin-top: 2px;
-}
-.testi-stars {
-  display: flex;
-  gap: 3px;
-  margin-bottom: 20px;
-}
-.star {
-  width: 8px; height: 8px;
-  background: var(--gold);
-  clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
-}
-
-/* ══════════════════════════════════════════
-   BOOKING SECTION
-══════════════════════════════════════════ */
-.booking-cta {
-  padding: 120px 72px;
-  background: var(--bg-mid);
-  border-top: 1px solid var(--gold-line);
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 80px;
-  align-items: center;
-}
-
-.booking-label {
-  font-size: 10px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.booking-label::before {
-  content: '';
-  width: 24px;
-  height: 1px;
-  background: var(--rose);
-}
-.booking-title {
-  font-family: var(--ff-serif);
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 400;
-  color: var(--ivory);
-  line-height: 1.1;
-  margin-bottom: 20px;
-}
-.booking-title em {
-  font-style: italic;
-  color: var(--gold);
-}
-.booking-subtitle {
-  font-size: 13px;
-  color: var(--ivory-40);
-  line-height: 1.8;
-  max-width: 380px;
-}
-
-/* booking form card */
-.booking-card {
-  background: var(--bg-card);
-  border: 1px solid var(--gold-line);
-  border-radius: 2px;
-  padding: 40px;
-}
-.booking-card-title {
-  font-family: var(--ff-serif);
-  font-size: 22px;
-  color: var(--ivory);
-  margin-bottom: 28px;
-  font-style: italic;
-}
-.form-group {
-  margin-bottom: 18px;
-}
-.form-label {
-  display: block;
-  font-size: 9px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--ivory-40);
-  margin-bottom: 8px;
-}
-.form-input, .form-select {
-  width: 100%;
-  padding: 12px 16px;
-  background: var(--bg-light);
-  border: 1px solid var(--gold-line);
-  border-radius: 1px;
-  color: var(--ivory);
-  font-family: var(--ff-sans);
-  font-size: 13px;
-  font-weight: 300;
-  outline: none;
-  transition: border-color .2s;
-  appearance: none;
-}
-.form-input::placeholder { color: var(--ivory-20); }
-.form-input:focus, .form-select:focus {
-  border-color: rgba(201,169,110,.6);
-}
-.form-select {
-  cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(201,169,110,.5)' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 36px;
-}
-.form-select option { background: var(--bg-card); color: var(--ivory); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.btn-submit {
-  width: 100%;
-  padding: 15px;
-  background: var(--gold);
-  color: var(--bg-deep);
-  font-family: var(--ff-sans);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  border: none;
-  border-radius: 1px;
-  cursor: pointer;
-  transition: all .25s;
-  margin-top: 8px;
-}
-.btn-submit:hover { background: var(--ivory); }
-
-/* ══════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════ */
-footer {
-  background: var(--bg-deep);
-  border-top: 1px solid var(--gold-line);
-  padding: 64px 72px 36px;
-}
-
-.footer-top {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px;
-  padding-bottom: 48px;
-  border-bottom: 1px solid var(--ivory-10);
-  margin-bottom: 28px;
-}
-
-.footer-brand-name {
-  font-family: var(--ff-serif);
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--ivory);
-  margin-bottom: 12px;
-}
-.footer-brand-name em { font-style: italic; color: var(--gold); }
-.footer-brand-desc {
-  font-size: 12px;
-  color: var(--ivory-40);
-  line-height: 1.8;
-  max-width: 240px;
-  margin-bottom: 24px;
-}
-
-.footer-socials {
-  display: flex;
-  gap: 14px;
-}
-.footer-social {
-  width: 34px; height: 34px;
-  border: 1px solid var(--gold-line);
-  border-radius: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color .2s, background .2s;
-}
-.footer-social:hover { border-color: var(--gold); background: var(--gold-dim); }
-.footer-social svg { width: 15px; height: 15px; fill: var(--ivory-40); }
-.footer-social:hover svg { fill: var(--gold); }
-
-.footer-col-title {
-  font-size: 10px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 20px;
-}
-.footer-links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.footer-links a {
-  font-size: 13px;
-  color: var(--ivory-40);
-  text-decoration: none;
-  transition: color .2s;
-}
-.footer-links a:hover { color: var(--ivory); }
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.footer-copy {
-  font-size: 11px;
-  color: var(--ivory-20);
-  letter-spacing: .06em;
-}
-.footer-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  color: var(--ivory-20);
-  letter-spacing: .1em;
-}
-.footer-badge-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--rose);
-  opacity: .7;
-}
-
-/* ══════════════════════════════════════════
-   FLOATING BOOK BUTTON (mobile-style)
-══════════════════════════════════════════ */
-.floating-book {
-  position: fixed;
-  right: 28px;
-  bottom: 32px;
-  z-index: 200;
-  background: var(--gold);
-  color: var(--bg-deep);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  padding: 13px 24px;
-  border-radius: 1px;
-  box-shadow: 0 8px 32px rgba(0,0,0,.45);
-  cursor: pointer;
-  transition: all .25s;
-  animation: floatIn .6s var(--ease) 1.5s both;
-}
-.floating-book:hover {
-  background: var(--ivory);
-  transform: translateY(-2px);
-}
-
-/* ══════════════════════════════════════════
-   ANIMATIONS
-══════════════════════════════════════════ */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes floatIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* scroll-triggered reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity .7s ease, transform .7s var(--ease);
-}
-.reveal.in {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: .1s; }
-.reveal-delay-2 { transition-delay: .2s; }
-.reveal-delay-3 { transition-delay: .3s; }
-.reveal-delay-4 { transition-delay: .4s; }
-
-/* ══════════════════════════════════════════
-   MARQUEE
-══════════════════════════════════════════ */
-.marquee-wrap {
-  background: var(--gold);
-  padding: 14px 0;
-  overflow: hidden;
-  white-space: nowrap;
-}
-.marquee-track {
-  display: inline-flex;
-  animation: marquee 18s linear infinite;
-}
-.marquee-item {
-  font-size: 10px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--bg-deep);
-  font-weight: 500;
-  padding: 0 32px;
-}
-.marquee-dot {
-  font-size: 14px;
-  color: rgba(21,17,13,.4);
-  vertical-align: middle;
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-/* ══════════════════════════════════════════
-   COLOR PALETTE STRIP (design reference)
-══════════════════════════════════════════ */
-</style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    body {background-color: #110e0c}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 17.0px 'Helvetica Neue'; color: #ecdec1; -webkit-text-stroke: #ecdec1}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'PingFang SC'; color: #110e0c; -webkit-text-stroke: #110e0c; background-color: #bc9a5b}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ecdec1; -webkit-text-stroke: #ecdec1; background-color: #bc9a5b; min-height: 15.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 52.0px 'PingFang SC'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p8 {margin: 0.0px 0.0px 44.0px 0.0px; font: 13.5px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'PingFang SC'; color: #110e0c; -webkit-text-stroke: #110e0c}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #110e0c; -webkit-text-stroke: #110e0c; min-height: 13.0px}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ecdec1; -webkit-text-stroke: #ecdec1; min-height: 15.0px}
+    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px 'PingFang SC'; color: #bc9a5b; color: rgba(188, 154, 91, 0.2); -webkit-text-stroke: rgba(188, 154, 91, 0.2)}
+    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: right; font: 72.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.078); -webkit-text-stroke: rgba(236, 222, 193, 0.078)}
+    p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: right; font: 9.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.18); -webkit-text-stroke: rgba(236, 222, 193, 0.18)}
+    p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.18); -webkit-text-stroke: rgba(236, 222, 193, 0.18)}
+    p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'PingFang SC'; color: #110e0c; -webkit-text-stroke: #110e0c}
+    p.p17 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 36.0px 'Helvetica Neue'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 10.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p20 {margin: 0.0px 0.0px 36.0px 0.0px; font: 13.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p21 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'PingFang SC'; color: #9f5f55; -webkit-text-stroke: #9f5f55}
+    p.p22 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.18); -webkit-text-stroke: rgba(236, 222, 193, 0.18)}
+    p.p23 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px 'Helvetica Neue'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p24 {margin: 0.0px 0.0px 0.0px 0.0px; font: 24.0px 'PingFang SC'; color: #ecdec1; -webkit-text-stroke: #ecdec1}
+    p.p25 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p26 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p27 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p28 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: right; font: 22.0px 'Helvetica Neue'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p29 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: right; font: 10.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p30 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: right; font: 16.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.18); -webkit-text-stroke: rgba(236, 222, 193, 0.18)}
+    p.p32 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'PingFang SC'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p33 {margin: 0.0px 0.0px 0.0px 0.0px; font: 28.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.078); -webkit-text-stroke: rgba(236, 222, 193, 0.078); min-height: 33.0px}
+    p.p35 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px 'PingFang SC'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p36 {margin: 0.0px 0.0px 0.0px 0.0px; font: 20.0px 'PingFang SC'; color: #ecdec1; -webkit-text-stroke: #ecdec1}
+    p.p37 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p38 {margin: 0.0px 0.0px 0.0px 0.0px; font: 64.0px 'Helvetica Neue'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p39 {margin: 0.0px 0.0px 28.0px 0.0px; font: 13.5px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.7); -webkit-text-stroke: rgba(236, 222, 193, 0.7)}
+    p.p40 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ecdec1; -webkit-text-stroke: #ecdec1}
+    p.p41 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p42 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #9f5f55; -webkit-text-stroke: #9f5f55}
+    p.p44 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p45 {margin: 0.0px 0.0px 0.0px 0.0px; font: 22.0px 'PingFang SC'; color: #ecdec1; -webkit-text-stroke: #ecdec1}
+    p.p46 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4); background-color: #1a1611}
+    p.p47 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #ecdec1; -webkit-text-stroke: #ecdec1; background-color: #211a13}
+    p.p48 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #ecdec1; -webkit-text-stroke: #ecdec1; background-color: #1a1611}
+    p.p49 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Times; color: #ecdec1; -webkit-text-stroke: #ecdec1; background-color: #1a1611}
+    p.p50 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #ecdec1; -webkit-text-stroke: #ecdec1; min-height: 16.0px}
+    p.p51 {margin: 0.0px 0.0px 0.0px 0.0px; font: 22.0px 'Helvetica Neue'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p52 {margin: 0.0px 0.0px 24.0px 0.0px; font: 12.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    p.p53 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'PingFang SC'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b}
+    p.p55 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.18); -webkit-text-stroke: rgba(236, 222, 193, 0.18)}
+    p.p56 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.18); -webkit-text-stroke: rgba(236, 222, 193, 0.18); background-color: #9f5f55; min-height: 12.0px}
+    p.p57 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.18); -webkit-text-stroke: rgba(236, 222, 193, 0.18)}
+    p.p58 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'PingFang SC'; color: #110e0c; -webkit-text-stroke: #110e0c; background-color: #bc9a5b}
+    p.p59 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #110e0c; -webkit-text-stroke: #110e0c; background-color: #bc9a5b}
+    li.li2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    li.li44 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'PingFang SC'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    li.li54 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #ecdec1; color: rgba(236, 222, 193, 0.4); -webkit-text-stroke: rgba(236, 222, 193, 0.4)}
+    span.s1 {font: 17.0px 'PingFang SC'; font-kerning: none; background-color: rgba(17, 14, 12, 0.88)}
+    span.s2 {font-kerning: none; background-color: rgba(17, 14, 12, 0.88)}
+    span.s3 {font-kerning: none; color: #bc9a5b; background-color: rgba(17, 14, 12, 0.88); -webkit-text-stroke: 0px #bc9a5b}
+    span.s4 {font: 17.0px '.CJK Symbols Fallback SC'; font-kerning: none; background-color: rgba(17, 14, 12, 0.88)}
+    span.s5 {font: 11.0px 'Helvetica Neue'; background-color: rgba(17, 14, 12, 0.88); -webkit-text-stroke: 0px #000000}
+    span.s6 {font-kerning: none}
+    span.s7 {font: 10.0px '.CJK Symbols Fallback SC'; font-kerning: none}
+    span.s8 {font: 52.0px 'Helvetica Neue'; font-kerning: none}
+    span.s9 {font: 13.5px 'Helvetica Neue'; font-kerning: none}
+    span.s10 {font-kerning: none; background-color: #bc9a5b}
+    span.s11 {font-kerning: none; background-color: #1a1611}
+    span.s12 {font: 10.0px 'Helvetica Neue'; font-kerning: none; background-color: #bc9a5b}
+    span.s13 {font: 14.0px '.CJK Symbols Fallback SC'; font-kerning: none; color: rgba(17, 14, 12, 0.4); background-color: #bc9a5b; -webkit-text-stroke: 0px rgba(17, 14, 12, 0.4)}
+    span.s14 {font-kerning: none; background-color: #17130f}
+    span.s15 {font-kerning: none; background-color: #110e0c}
+    span.s16 {font-kerning: none; color: #bc9a5b; background-color: #110e0c; -webkit-text-stroke: 0px #bc9a5b}
+    span.s17 {font: 13.0px 'Helvetica Neue'; font-kerning: none; background-color: #110e0c}
+    span.s18 {font: 10.0px 'Helvetica Neue'; font-kerning: none; background-color: #110e0c}
+    span.s19 {font: 9.0px 'PingFang SC'; font-kerning: none; background-color: #110e0c}
+    span.s20 {font: 11.0px 'Helvetica Neue'; font-kerning: none; background-color: #110e0c}
+    span.s21 {font: 9.0px 'Helvetica Neue'; font-kerning: none; background-color: #110e0c}
+    span.s22 {font: 9.0px '.CJK Symbols Fallback SC'; font-kerning: none; background-color: #110e0c}
+    span.s23 {font-kerning: none; color: #ecdec1; background-color: #17130f; -webkit-text-stroke: 0px #ecdec1}
+    span.s24 {font: 11.0px '.CJK Symbols Fallback SC'; font-kerning: none; background-color: #17130f}
+    span.s25 {font: 11.0px 'PingFang SC'; font-kerning: none; background-color: #17130f}
+    span.s26 {font: 11.0px 'Helvetica Neue'; font-kerning: none; background-color: #17130f}
+    span.s27 {font: 12.0px '.CJK Symbols Fallback SC'; font-kerning: none; background-color: #1a1611}
+    span.s28 {font: 12.0px 'PingFang SC'; font-kerning: none; background-color: #1a1611}
+    span.s29 {font: 10.0px 'Helvetica Neue'; font-kerning: none; background-color: #1a1611}
+    span.s30 {font: 10.0px '.CJK Symbols Fallback SC'; font-kerning: none; background-color: #1a1611}
+    span.s31 {font: 13.5px 'Helvetica Neue'; font-kerning: none; background-color: #1a1611}
+    span.s32 {font: 36.0px 'Helvetica Neue'; font-kerning: none}
+    span.s33 {font-kerning: none; color: #bc9a5b; background-color: #17130f; -webkit-text-stroke: 0px #bc9a5b}
+    span.s34 {font: 13.0px 'Helvetica Neue'; font-kerning: none}
+    span.s35 {font: 13.0px 'Helvetica Neue'; font-kerning: none; background-color: #17130f}
+    span.s36 {font: 13.0px 'Songti SC'; font-kerning: none; background-color: #1a1611}
+    span.s37 {font-kerning: none; background-color: #211a13}
+    span.s38 {font: 13.0px 'Songti SC'; font-kerning: none}
+    span.s39 {font: 13.0px Times; font-kerning: none}
+    span.s40 {font: 13.0px 'Helvetica Neue'; font-kerning: none; background-color: #211a13}
+    span.s41 {font: 13.0px Times; font-kerning: none; background-color: #1a1611}
+    span.s42 {font: 11.0px 'Helvetica Neue'; font-kerning: none}
+    span.s43 {font: 22.0px 'PingFang SC'; font-kerning: none; color: #ecdec1; background-color: #110e0c; -webkit-text-stroke: 0px #ecdec1}
+    span.s44 {font-kerning: none; color: #ecdec1; background-color: #110e0c; -webkit-text-stroke: 0px #ecdec1}
+    span.s45 {font: 12.0px 'Helvetica Neue'; font-kerning: none; background-color: #110e0c}
+    span.s46 {font: 13.0px 'Helvetica Neue'; background-color: #110e0c; -webkit-text-stroke: 0px #000000}
+    span.s47 {font: 13.0px '.Apple Color Emoji UI'; font-kerning: none; background-color: #110e0c}
+    span.s48 {background-color: #110e0c; -webkit-text-stroke: 0px #000000}
+    span.s49 {font: 13.0px 'PingFang SC'; font-kerning: none; background-color: #110e0c}
+    span.s50 {font: 13.0px Menlo; font-kerning: none; background-color: #110e0c}
+    span.s51 {font: 11.0px 'PingFang SC'; font-kerning: none; background-color: #110e0c}
+    span.s52 {font: 11.0px '.CJK Symbols Fallback SC'; font-kerning: none; background-color: #110e0c}
+    span.s53 {font: 10.0px '.CJK Symbols Fallback SC'; font-kerning: none; background-color: #110e0c}
+    span.s54 {font: 10.0px 'Helvetica Neue'; font-kerning: none}
+    ul.ul1 {list-style-type: none}
+  </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">约书亚 <em>(Joshua)</em> · 高定美发</a>
-  <ul class="nav-links">
-    <li><a href="#services">服务项目</a></li>
-    <li><a href="#team">明星团队</a></li>
-    <li><a href="#works">作品赏析</a></li>
-    <li><a href="#reviews">贵宾心声</a></li>
-  </ul>
-  <a href="#booking" class="nav-book">预约体验</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-kicker">
-      <div class="hero-kicker-line"></div>
-      <span class="hero-kicker-text">Since 2018 · Shanghai · Premium Hair Atelier</span>
-    </div>
-    <h1 class="hero-title">
-      让每一刀<br>都成为
-      <em>艺术</em>
-    </h1>
-    <p class="hero-desc">
-      资深发型师一对一定制咨询，<br>
-      从发质诊断到造型落地，<br>
-      每个细节都经过严苛打磨。
-    </p>
-    <div class="hero-actions">
-      <a href="#booking" class="btn-gold">
-        立即预约体验
-        <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-          <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-      <a href="#services" class="btn-ghost">浏览服务项目</a>
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="hero-photo-grid">
-      <div class="hero-photo-cell cell-1" data-label="精剪造型 · Precision Cut">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
-          <svg class="scissors-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,.35)" stroke-width="1">
-            <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
-            <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
-            <line x1="8.12" y1="8.12" x2="12" y2="12"/>
-          </svg>
-        </div>
-      </div>
-      <div class="hero-photo-cell cell-2" data-label="作品集">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,.25)" stroke-width="1">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21,15 16,10 5,21"/>
-          </svg>
-          <span style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,169,110,.2);">放入真实作品图</span>
-        </div>
-      </div>
-      <div class="hero-photo-cell cell-3" data-label="沙龙环境">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(176,116,104,.3)" stroke-width="1">
-            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/>
-          </svg>
-        </div>
-      </div>
-    </div>
-    <div class="hero-overlay-text">
-      <div class="hero-overlay-num">08</div>
-      <div class="hero-overlay-label">年专业经验</div>
-    </div>
-  </div>
-
-  <div class="hero-scroll">
-    <div class="hero-scroll-bar"></div>
-    <span class="hero-scroll-text">scroll</span>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item">精剪造型 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">奢华染护 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">深层护发 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">烫发塑型 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">日式护理 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">定制造型 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">精剪造型 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">奢华染护 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">深层护发 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">烫发塑型 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">日式护理 <span class="marquee-dot">·</span></span>
-    <span class="marquee-item">定制造型 <span class="marquee-dot">·</span></span>
-  </div>
-</div>
-
-<!-- STATS -->
-<div class="stats-bar reveal">
-  <div class="stat-item">
-    <div class="stat-num">2,400+</div>
-    <div class="stat-label">服务贵宾</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">8</div>
-    <div class="stat-label">年匠心沉淀</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">12</div>
-    <div class="stat-label">位资深发型师</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">98%</div>
-    <div class="stat-label">回头客比例</div>
-  </div>
-</div>
-
-<!-- SERVICES -->
-<section class="services" id="services">
-  <div class="services-layout">
-    <div class="services-sticky reveal">
-      <div class="section-header">
-        <div class="section-en">Our Services</div>
-        <h2 class="section-title">尊享<em>服务</em></h2>
-      </div>
-      <p class="services-body-text">
-        每项服务均由资深发型师亲自操刀，
-        结合当季最新技术与您的个人特质，
-        量身打造专属于您的发型美学。
-      </p>
-      <div class="services-note">全年预约档期紧张，建议提前7天预约</div>
-    </div>
-
-    <div class="svc-list">
-      <div class="svc-item reveal">
-        <div class="svc-num">01</div>
-        <div>
-          <div class="svc-en">Precision Cut</div>
-          <div class="svc-name">精剪造型</div>
-          <div class="svc-desc">资深发型师根据脸型轮廓、发质特性与个人生活方式，精准剪裁出最适合您的发型。每一刀都是艺术的呈现。</div>
-          <div class="svc-tags">
-            <span class="svc-tag">60–90分钟</span>
-            <span class="svc-tag">含发质分析</span>
-            <span class="svc-tag">含定型</span>
-          </div>
-        </div>
-        <div class="svc-right">
-          <div class="svc-price">¥680</div>
-          <div class="svc-unit">起</div>
-          <span class="svc-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="svc-item reveal reveal-delay-1">
-        <div class="svc-num">02</div>
-        <div>
-          <div class="svc-en">Luxury Color</div>
-          <div class="svc-name">奢华染护</div>
-          <div class="svc-desc">采用顶级有机染发产品，呈现自然光泽与丰富层次感。配合深层护理方案，让秀发在染后焕发持久生机。</div>
-          <div class="svc-tags">
-            <span class="svc-tag">180–240分钟</span>
-            <span class="svc-tag">有机染料</span>
-            <span class="svc-tag">含修复护理</span>
-          </div>
-        </div>
-        <div class="svc-right">
-          <div class="svc-price">¥1,280</div>
-          <div class="svc-unit">起</div>
-          <span class="svc-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="svc-item reveal reveal-delay-2">
-        <div class="svc-num">03</div>
-        <div>
-          <div class="svc-en">Deep Treatment</div>
-          <div class="svc-name">深层修护</div>
-          <div class="svc-desc">基于日本顶尖护发科技，定制化发质修复方案。从发根至发梢全面滋养，重现柔顺亮泽，告别毛躁与损伤。</div>
-          <div class="svc-tags">
-            <span class="svc-tag">60分钟</span>
-            <span class="svc-tag">日本工艺</span>
-            <span class="svc-tag">定制配方</span>
-          </div>
-        </div>
-        <div class="svc-right">
-          <div class="svc-price">¥480</div>
-          <div class="svc-unit">起</div>
-          <span class="svc-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="svc-item reveal reveal-delay-3">
-        <div class="svc-num">04</div>
-        <div>
-          <div class="svc-en">Signature Perm</div>
-          <div class="svc-name">烫发塑型</div>
-          <div class="svc-desc">融合韩式冷烫与日式数码烫技艺，打造持久自然的卷度与弧度。发型师全程陪同，确保效果精准落地。</div>
-          <div class="svc-tags">
-            <span class="svc-tag">240分钟+</span>
-            <span class="svc-tag">低损烫药</span>
-            <span class="svc-tag">含剪裁收尾</span>
-          </div>
-        </div>
-        <div class="svc-right">
-          <div class="svc-price">¥980</div>
-          <div class="svc-unit">起</div>
-          <span class="svc-arrow">→</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- GALLERY -->
-<section class="gallery-band" id="works">
-  <div class="gallery-header reveal">
-    <div>
-      <div class="section-en">Featured Works</div>
-      <h2 class="section-title" style="font-size:42px">作品<em>赏析</em></h2>
-    </div>
-    <a href="#" class="gallery-link">查看全部作品 →</a>
-  </div>
-  <div class="gallery-grid reveal">
-    <div class="gallery-cell gc-1">
-      <div class="gallery-cell-bg"></div>
-      <div class="gallery-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <rect x="3" y="3" width="18" height="18" rx="1"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21,15 16,10 5,21"/>
-        </svg>
-      </div>
-      <div class="gallery-cell-label">精剪 · 发色双效</div>
-    </div>
-    <div class="gallery-cell gc-2">
-      <div class="gallery-cell-bg"></div>
-      <div class="gallery-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <rect x="3" y="3" width="18" height="18" rx="1"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21,15 16,10 5,21"/>
-        </svg>
-      </div>
-      <div class="gallery-cell-label">染护</div>
-    </div>
-    <div class="gallery-cell gc-3">
-      <div class="gallery-cell-bg"></div>
-      <div class="gallery-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <rect x="3" y="3" width="18" height="18" rx="1"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21,15 16,10 5,21"/>
-        </svg>
-      </div>
-      <div class="gallery-cell-label">冷烫</div>
-    </div>
-    <div class="gallery-cell gc-4">
-      <div class="gallery-cell-bg"></div>
-      <div class="gallery-cell-label">剪裁</div>
-    </div>
-    <div class="gallery-cell gc-5">
-      <div class="gallery-cell-bg"></div>
-      <div class="gallery-cell-label">护理</div>
-    </div>
-  </div>
-</section>
-
-<!-- TEAM -->
-<section class="team" id="team">
-  <div class="reveal">
-    <div class="section-en">Meet The Team</div>
-    <h2 class="section-title">明星<em>发型师</em></h2>
-  </div>
-  <div class="team-grid">
-    <div class="team-card reveal">
-      <div class="team-photo">
-        <div class="team-photo-bg tp-1"></div>
-        <div class="team-photo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,.2)" stroke-width="0.8">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
-          </svg>
-        </div>
-        <div class="team-photo-overlay"></div>
-      </div>
-      <div class="team-role">色彩总监</div>
-      <div class="team-name">陈静</div>
-      <div class="team-name-en">Aria Chen · 15年经验</div>
-      <div class="team-spec">擅长高端定制染色、漂染修护，曾赴首尔进修最新色彩技术。</div>
-    </div>
-    <div class="team-card reveal reveal-delay-1">
-      <div class="team-photo">
-        <div class="team-photo-bg tp-2"></div>
-        <div class="team-photo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,.2)" stroke-width="0.8">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
-          </svg>
-        </div>
-        <div class="team-photo-overlay"></div>
-      </div>
-      <div class="team-role">首席造型师</div>
-      <div class="team-name">林磊</div>
-      <div class="team-name-en">Leon Lin · 12年经验</div>
-      <div class="team-spec">精通女士精剪与男士 Barbershop，擅长亚洲发质改善。</div>
-    </div>
-    <div class="team-card reveal reveal-delay-2">
-      <div class="team-photo">
-        <div class="team-photo-bg tp-3"></div>
-        <div class="team-photo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,.2)" stroke-width="0.8">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
-          </svg>
-        </div>
-        <div class="team-photo-overlay"></div>
-      </div>
-      <div class="team-role">烫发专家</div>
-      <div class="team-name">王思思</div>
-      <div class="team-name-en">Sisi Wang · 10年经验</div>
-      <div class="team-spec">专注日韩低损烫发技术，擅长定制卷度与数码烫造型。</div>
-    </div>
-    <div class="team-card reveal reveal-delay-3">
-      <div class="team-photo">
-        <div class="team-photo-bg tp-4"></div>
-        <div class="team-photo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,.2)" stroke-width="0.8">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
-          </svg>
-        </div>
-        <div class="team-photo-overlay"></div>
-      </div>
-      <div class="team-role">护理顾问</div>
-      <div class="team-name">张赫</div>
-      <div class="team-name-en">He Zhang · 8年经验</div>
-      <div class="team-spec">深度研究发质修护，善用日系顶尖产品进行定制护理方案。</div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials" id="reviews">
-  <div class="reveal">
-    <div class="section-en">Client Stories</div>
-    <h2 class="section-title">贵宾<em>心声</em></h2>
-  </div>
-  <div class="testi-grid">
-    <div class="testi-card reveal">
-      <div class="testi-stars">
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-      </div>
-      <div class="testi-quote-mark">"</div>
-      <p class="testi-text">陈静老师帮我做了一次奶茶色染发，效果完全超出预期。整个过程非常细心，还根据我的肤色调整了色调，真的太专业了。</p>
-      <div class="testi-divider"></div>
-      <div class="testi-author">Michelle · 张女士</div>
-      <div class="testi-meta">复购客户 · 18个月</div>
-    </div>
-    <div class="testi-card reveal reveal-delay-1">
-      <div class="testi-stars">
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-      </div>
-      <div class="testi-quote-mark">"</div>
-      <p class="testi-text">在这里剪发已经三年了，每次都是 Leon 老师。他真的很懂发质，不会为了推销过度处理，诚实又专业，难得。</p>
-      <div class="testi-divider"></div>
-      <div class="testi-author">Kevin · 李先生</div>
-      <div class="testi-meta">忠实客户 · 3年</div>
-    </div>
-    <div class="testi-card reveal reveal-delay-2">
-      <div class="testi-stars">
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-      </div>
-      <div class="testi-quote-mark">"</div>
-      <p class="testi-text">做了一次定制护理套餐，头发损伤问题改善了很多。王老师的服务让我感觉自己在做 spa，完全不像普通发廊。</p>
-      <div class="testi-divider"></div>
-      <div class="testi-author">Sophia · 王小姐</div>
-      <div class="testi-meta">首次体验后回头</div>
-    </div>
-  </div>
-</section>
-
-<!-- BOOKING -->
-<section class="booking-cta" id="booking">
-  <div class="reveal">
-    <div class="booking-label">Reservation</div>
-    <h2 class="booking-title">预约您的<br><em>专属体验</em></h2>
-    <p class="booking-subtitle">
-      每位客人均获得专属发型师一对一接待，<br>
-      建议至少提前7天预约以保障最优档期。<br>
-      首次预约享受发质诊断免费服务。
-    </p>
-  </div>
-  <div class="booking-card reveal reveal-delay-1">
-    <div class="booking-card-title">填写预约信息</div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">您的姓名</label>
-        <input class="form-input" type="text" placeholder="张小姐 / 李先生">
-      </div>
-      <div class="form-group">
-        <label class="form-label">联系电话</label>
-        <input class="form-input" type="tel" placeholder="138 xxxx xxxx">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">服务项目</label>
-      <select class="form-select">
-        <option value="">请选择服务类型</option>
-        <option>精剪造型 — ¥680起</option>
-        <option>奢华染护 — ¥1,280起</option>
-        <option>深层修护 — ¥480起</option>
-        <option>烫发塑型 — ¥980起</option>
-        <option>综合定制套餐</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">希望日期</label>
-        <input class="form-input" type="date">
-      </div>
-      <div class="form-group">
-        <label class="form-label">指定发型师</label>
-        <select class="form-select">
-          <option value="">不指定（随机分配）</option>
-          <option>陈静 — 色彩总监</option>
-          <option>林磊 — 首席造型师</option>
-          <option>王思思 — 烫发专家</option>
-          <option>张赫 — 护理顾问</option>
-        </select>
-      </div>
-    </div>
-    <button class="btn-submit">确认预约 →</button>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div>
-      <div class="footer-brand-name">约书亚 <em>(Joshua)</em></div>
-      <p class="footer-brand-desc">
-        专注高定美发8年，以匠心技艺与前沿审美，
-        为每一位贵宾打造专属的发型美学。
-      </p>
-      <div class="footer-socials">
-        <div class="footer-social" title="微信">
-          <svg viewBox="0 0 24 24"><path d="M8.05 8.46a1 1 0 100 2 1 1 0 000-2zm4.9 0a1 1 0 100 2 1 1 0 000-2z"/><path d="M20.94 14a8 8 0 10-15.36 3.27L4 21l4.05-1.55A8 8 0 0020.94 14z"/></svg>
-        </div>
-        <div class="footer-social" title="小红书">
-          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" stroke-width="1.2" fill="none" stroke="currentColor"/><line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="1.2"/><line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.2"/></svg>
-        </div>
-        <div class="footer-social" title="抖音">
-          <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="footer-col-title">服务项目</div>
-      <ul class="footer-links">
-        <li><a href="#">精剪造型</a></li>
-        <li><a href="#">奢华染护</a></li>
-        <li><a href="#">深层修护</a></li>
-        <li><a href="#">烫发塑型</a></li>
-        <li><a href="#">定制套餐</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">关于我们</div>
-      <ul class="footer-links">
-        <li><a href="#">明星团队</a></li>
-        <li><a href="#">品牌故事</a></li>
-        <li><a href="#">作品赏析</a></li>
-        <li><a href="#">贵宾心声</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">联系我们</div>
-      <ul class="footer-links">
-        <li><a href="#">📍 上海市徐汇区</a></li>
-        <li><a href="#">📞 021-XXXX-XXXX</a></li>
-        <li><a href="#">🕐 周一至周日 10:00–21:00</a></li>
-        <li><a href="#">✉ hello@joshua.salon</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2026 约书亚 Joshua Hair Atelier · All rights reserved</div>
-    <div class="footer-badge">
-      <div class="footer-badge-dot"></div>
-      <span>高端美发 · 精工匠艺</span>
-    </div>
-  </div>
-</footer>
-
-<!-- FLOATING BOOK -->
-<div class="floating-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">
-  立即预约 →
-</div>
-
-<script>
-// Scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-}, { threshold: 0.1 });
-reveals.forEach(el => io.observe(el));
-
-// Nav background on scroll
-const nav = document.querySelector('nav');
-window.addEventListener('scroll', () => {
-  nav.style.background = window.scrollY > 80
-    ? 'rgba(21,17,13,.97)'
-    : 'rgba(21,17,13,.88)';
-});
-
-// Form submit
-document.querySelector('.btn-submit').addEventListener('click', function() {
-  this.textContent = '✓ 预约成功，我们将尽快与您联系';
-  this.style.background = '#6B8C5A';
-  this.style.color = '#fff';
-});
-</script>
+<p class="p1"><span class="s1">约书亚</span><span class="s2"> </span><span class="s3">(Joshua)</span><span class="s2"> </span><span class="s4">·</span><span class="s2"> </span><span class="s1">高定美发</span></p>
+<ul class="ul1">
+  <li class="li2"><span class="s5"></span><span class="s2">服务项目</span></li>
+  <li class="li2"><span class="s5"></span><span class="s2">明星团队</span></li>
+  <li class="li2"><span class="s5"></span><span class="s2">作品赏析</span></li>
+  <li class="li2"><span class="s5"></span><span class="s2">贵宾心声</span></li>
+</ul>
+<p class="p3"><span class="s6">预约体验</span></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p5"><span class="s6">SINCE 2018 </span><span class="s7">·</span><span class="s6"> SHANGHAI </span><span class="s7">·</span><span class="s6"> PREMIUM HAIR ATELIER</span></p>
+<h1 style="margin: 0.0px 0.0px 28.0px 0.0px; font: 52.0px 'PingFang SC'; color: #ecdec1; -webkit-text-stroke: #ecdec1"><span class="s6">让每一刀</span><span class="s8"><br>
+</span><span class="s6">都成为</span></h1>
+<p class="p7"><span class="s6">艺术</span></p>
+<p class="p8"><span class="s6">资深发型师一对一定制咨询，</span><span class="s9"><br>
+</span><span class="s6">从发质诊断到造型落地，</span><span class="s9"><br>
+</span><span class="s6">每个细节都经过严苛打磨。</span></p>
+<p class="p9"><span class="s10">立即预约体验</span></p>
+<p class="p10"><span class="s6"></span><br></p>
+<p class="p2"><span class="s6">浏览服务项目</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p12"><span class="s11">放入真实作品图</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p13"><span class="s11">08</span></p>
+<p class="p14"><span class="s11">年专业经验</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p15"><span class="s6">SCROLL</span></p>
+<p class="p16"><span class="s10">精剪造型</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">奢华染护</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">深层护发</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">烫发塑型</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">日式护理</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">定制造型</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">精剪造型</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">奢华染护</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">深层护发</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">烫发塑型</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">日式护理</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p16"><span class="s10">定制造型</span><span class="s12"> </span><span class="s13">·</span></p>
+<p class="p17"><span class="s14">2,400+</span></p>
+<p class="p18"><span class="s14">服务贵宾</span></p>
+<p class="p17"><span class="s14">8</span></p>
+<p class="p18"><span class="s14">年匠心沉淀</span></p>
+<p class="p17"><span class="s14">12</span></p>
+<p class="p18"><span class="s14">位资深发型师</span></p>
+<p class="p17"><span class="s14">98%</span></p>
+<p class="p18"><span class="s14">回头客比例</span></p>
+<p class="p5"><span class="s15">OUR SERVICES</span></p>
+<h2 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 38.0px 'PingFang SC'; color: #ecdec1; -webkit-text-stroke: #ecdec1"><span class="s15">尊享</span><span class="s16">服务</span></h2>
+<p class="p20"><span class="s15">每项服务均由资深发型师亲自操刀，</span><span class="s17"> </span><span class="s15">结合当季最新技术与您的个人特质，</span><span class="s17"> </span><span class="s15">量身打造专属于您的发型美学。</span></p>
+<p class="p21"><span class="s15">全年预约档期紧张，建议提前</span><span class="s18">7</span><span class="s15">天预约</span></p>
+<p class="p22"><span class="s15">01</span></p>
+<p class="p23"><span class="s15">PRECISION CUT</span></p>
+<p class="p24"><span class="s15">精剪造型</span></p>
+<p class="p25"><span class="s15">资深发型师根据脸型轮廓、发质特性与个人生活方式，精准剪裁出最适合您的发型。每一刀都是艺术的呈现。</span></p>
+<p class="p26"><span class="s15">60–90</span><span class="s19">分钟</span></p>
+<p class="p27"><span class="s15">含发质分析</span></p>
+<p class="p27"><span class="s15">含定型</span></p>
+<p class="p28"><span class="s15">¥680</span></p>
+<p class="p29"><span class="s15">起</span></p>
+<p class="p30"><span class="s15">→</span></p>
+<p class="p22"><span class="s15">02</span></p>
+<p class="p23"><span class="s15">LUXURY COLOR</span></p>
+<p class="p24"><span class="s15">奢华染护</span></p>
+<p class="p25"><span class="s15">采用顶级有机染发产品，呈现自然光泽与丰富层次感。配合深层护理方案，让秀发在染后焕发持久生机。</span></p>
+<p class="p26"><span class="s15">180–240</span><span class="s19">分钟</span></p>
+<p class="p27"><span class="s15">有机染料</span></p>
+<p class="p27"><span class="s15">含修复护理</span></p>
+<p class="p28"><span class="s15">¥1,280</span></p>
+<p class="p29"><span class="s15">起</span></p>
+<p class="p30"><span class="s15">→</span></p>
+<p class="p22"><span class="s15">03</span></p>
+<p class="p23"><span class="s15">DEEP TREATMENT</span></p>
+<p class="p24"><span class="s15">深层修护</span></p>
+<p class="p25"><span class="s15">基于日本顶尖护发科技，定制化发质修复方案。从发根至发梢全面滋养，重现柔顺亮泽，告别毛躁与损伤。</span></p>
+<p class="p26"><span class="s15">60</span><span class="s19">分钟</span></p>
+<p class="p27"><span class="s15">日本工艺</span></p>
+<p class="p27"><span class="s15">定制配方</span></p>
+<p class="p28"><span class="s15">¥480</span></p>
+<p class="p29"><span class="s15">起</span></p>
+<p class="p30"><span class="s15">→</span></p>
+<p class="p22"><span class="s15">04</span></p>
+<p class="p23"><span class="s15">SIGNATURE PERM</span></p>
+<p class="p24"><span class="s15">烫发塑型</span></p>
+<p class="p25"><span class="s15">融合韩式冷烫与日式数码烫技艺，打造持久自然的卷度与弧度。发型师全程陪同，确保效果精准落地。</span></p>
+<p class="p26"><span class="s15">240</span><span class="s19">分钟</span><span class="s15">+</span></p>
+<p class="p27"><span class="s15">低损烫药</span></p>
+<p class="p27"><span class="s15">含剪裁收尾</span></p>
+<p class="p28"><span class="s15">¥980</span></p>
+<p class="p29"><span class="s15">起</span></p>
+<p class="p30"><span class="s15">→</span></p>
+<p class="p5"><span class="s15">FEATURED WORKS</span></p>
+<h2 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 42.0px 'PingFang SC'; color: #ecdec1; -webkit-text-stroke: #ecdec1"><span class="s15">作品</span><span class="s16">赏析</span></h2>
+<p class="p32"><span class="s15">查看全部作品</span><span class="s20"> →</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p33"><span class="s6"></span><br></p>
+<p class="p27"><span class="s15">精剪</span><span class="s21"> </span><span class="s22">·</span><span class="s21"> </span><span class="s15">发色双效</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p33"><span class="s6"></span><br></p>
+<p class="p27"><span class="s15">染护</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p33"><span class="s6"></span><br></p>
+<p class="p27"><span class="s15">冷烫</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p27"><span class="s15">剪裁</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p27"><span class="s15">护理</span></p>
+<p class="p5"><span class="s14">MEET THE TEAM</span></p>
+<h2 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 38.0px 'PingFang SC'; color: #bc9a5b; -webkit-text-stroke: #bc9a5b"><span class="s23">明星</span><span class="s14">发型师</span></h2>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p35"><span class="s14">色彩总监</span></p>
+<p class="p36"><span class="s14">陈静</span></p>
+<p class="p37"><span class="s14">Aria Chen </span><span class="s24">·</span><span class="s14"> 15</span><span class="s25">年经验</span></p>
+<p class="p2"><span class="s14">擅长高端定制染色、漂染修护，曾赴首尔进修最新色彩技术。</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p35"><span class="s14">首席造型师</span></p>
+<p class="p36"><span class="s14">林磊</span></p>
+<p class="p37"><span class="s14">Leon Lin </span><span class="s24">·</span><span class="s14"> 12</span><span class="s25">年经验</span></p>
+<p class="p2"><span class="s14">精通女士精剪与男士</span><span class="s26"> Barbershop</span><span class="s14">，擅长亚洲发质改善。</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p35"><span class="s14">烫发专家</span></p>
+<p class="p36"><span class="s14">王思思</span></p>
+<p class="p37"><span class="s14">Sisi Wang </span><span class="s24">·</span><span class="s14"> 10</span><span class="s25">年经验</span></p>
+<p class="p2"><span class="s14">专注日韩低损烫发技术，擅长定制卷度与数码烫造型。</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p35"><span class="s14">护理顾问</span></p>
+<p class="p36"><span class="s14">张赫</span></p>
+<p class="p37"><span class="s14">He Zhang </span><span class="s24">·</span><span class="s14"> 8</span><span class="s25">年经验</span></p>
+<p class="p2"><span class="s14">深度研究发质修护，善用日系顶尖产品进行定制护理方案。</span></p>
+<p class="p5"><span class="s15">CLIENT STORIES</span></p>
+<h2 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 38.0px 'PingFang SC'; color: #ecdec1; -webkit-text-stroke: #ecdec1"><span class="s15">贵宾</span><span class="s16">心声</span></h2>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p38"><span class="s11">"</span></p>
+<p class="p39"><span class="s11">陈静老师帮我做了一次奶茶色染发，效果完全超出预期。整个过程非常细心，还根据我的肤色调整了色调，真的太专业了。</span></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p40"><span class="s11">Michelle </span><span class="s27">·</span><span class="s11"> </span><span class="s28">张女士</span></p>
+<p class="p41"><span class="s11">复购客户</span><span class="s29"> </span><span class="s30">·</span><span class="s29"> 18</span><span class="s11">个月</span></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p38"><span class="s11">"</span></p>
+<p class="p39"><span class="s11">在这里剪发已经三年了，每次都是</span><span class="s31"> Leon </span><span class="s11">老师。他真的很懂发质，不会为了推销过度处理，诚实又专业，难得。</span></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p40"><span class="s11">Kevin </span><span class="s27">·</span><span class="s11"> </span><span class="s28">李先生</span></p>
+<p class="p41"><span class="s11">忠实客户</span><span class="s29"> </span><span class="s30">·</span><span class="s29"> 3</span><span class="s11">年</span></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p38"><span class="s11">"</span></p>
+<p class="p39"><span class="s11">做了一次定制护理套餐，头发损伤问题改善了很多。王老师的服务让我感觉自己在做</span><span class="s31"> spa</span><span class="s11">，完全不像普通发廊。</span></p>
+<p class="p4"><span class="s6"></span><br></p>
+<p class="p40"><span class="s11">Sophia </span><span class="s27">·</span><span class="s11"> </span><span class="s28">王小姐</span></p>
+<p class="p41"><span class="s11">首次体验后回头</span></p>
+<p class="p42"><span class="s14">RESERVATION</span></p>
+<h2 style="margin: 0.0px 0.0px 20.0px 0.0px; font: 36.0px 'PingFang SC'; color: #ecdec1; -webkit-text-stroke: #ecdec1"><span class="s14">预约您的</span><span class="s32"><br>
+</span><span class="s33">专属体验</span></h2>
+<p class="p44"><span class="s14">每位客人均获得专属发型师一对一接待，</span><span class="s34"><br>
+</span><span class="s14">建议至少提前</span><span class="s35">7</span><span class="s14">天预约以保障最优档期。</span><span class="s34"><br>
+</span><span class="s14">首次预约享受发质诊断免费服务。</span></p>
+<p class="p45"><span class="s11">填写预约信息</span></p>
+<p class="p27"><span class="s11">您的姓名</span></p>
+<p class="p27"><span class="s11">联系电话</span></p>
+<p class="p46"><span class="s6">服务项目</span></p>
+<p class="p47"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s36">请选择服务类型</span></p>
+<p class="p48"><span class="s37"><span class="Apple-converted-space">        </span></span><span class="s38">精剪造型</span><span class="s39"> — ¥680</span><span class="s38">起</span></p>
+<p class="p49"><span class="s40"><span class="Apple-converted-space">        </span></span><span class="s38">奢华染护</span><span class="s6"> — ¥1,280</span><span class="s38">起</span></p>
+<p class="p48"><span class="s37"><span class="Apple-converted-space">        </span></span><span class="s38">深层修护</span><span class="s39"> — ¥480</span><span class="s38">起</span></p>
+<p class="p48"><span class="s37"><span class="Apple-converted-space">        </span></span><span class="s38">烫发塑型</span><span class="s39"> — ¥980</span><span class="s38">起</span></p>
+<p class="p47"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s36">综合定制套餐</span></p>
+<p class="p50"><span class="s37"><span class="Apple-converted-space">      </span></span></p>
+<p class="p27"><span class="s11">希望日期</span></p>
+<p class="p46"><span class="s6">指定发型师</span></p>
+<p class="p47"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s36">不指定（随机分配）</span></p>
+<p class="p47"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s36">陈静</span><span class="s41"> — </span><span class="s36">色彩总监</span></p>
+<p class="p47"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s36">林磊</span><span class="s41"> — </span><span class="s36">首席造型师</span></p>
+<p class="p47"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s36">王思思</span><span class="s41"> — </span><span class="s36">烫发专家</span></p>
+<p class="p47"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s36">张赫</span><span class="s41"> — </span><span class="s36">护理顾问</span></p>
+<p class="p50"><span class="s37"><span class="Apple-converted-space">        </span></span></p>
+<p class="p3"><span class="s6">确认预约</span><span class="s42"> →</span></p>
+<p class="p51"><span class="s43">约书亚</span><span class="s44"> </span><span class="s15">(Joshua)</span></p>
+<p class="p52"><span class="s15">专注高定美发</span><span class="s45">8</span><span class="s15">年，以匠心技艺与前沿审美，</span><span class="s45"> </span><span class="s15">为每一位贵宾打造专属的发型美学。</span></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p11"><span class="s6"></span><br></p>
+<p class="p53"><span class="s15">服务项目</span></p>
+<ul class="ul1">
+  <li class="li44"><span class="s46"></span><span class="s15">精剪造型</span></li>
+  <li class="li44"><span class="s46"></span><span class="s15">奢华染护</span></li>
+  <li class="li44"><span class="s46"></span><span class="s15">深层修护</span></li>
+  <li class="li44"><span class="s46"></span><span class="s15">烫发塑型</span></li>
+  <li class="li44"><span class="s46"></span><span class="s15">定制套餐</span></li>
+</ul>
+<p class="p53"><span class="s15">关于我们</span></p>
+<ul class="ul1">
+  <li class="li44"><span class="s46"></span><span class="s15">明星团队</span></li>
+  <li class="li44"><span class="s46"></span><span class="s15">品牌故事</span></li>
+  <li class="li44"><span class="s46"></span><span class="s15">作品赏析</span></li>
+  <li class="li44"><span class="s46"></span><span class="s15">贵宾心声</span></li>
+</ul>
+<p class="p53"><span class="s15">联系我们</span></p>
+<ul class="ul1">
+  <li class="li44"><span class="s46"></span><span class="s47">📍</span><span class="s17"> </span><span class="s15">上海市徐汇区</span></li>
+  <li class="li54"><span class="s48"></span><span class="s47">📞</span><span class="s15"> 021-XXXX-XXXX</span></li>
+  <li class="li54"><span class="s48"></span><span class="s47">🕐</span><span class="s15"> </span><span class="s49">周一至周日</span><span class="s15"> 10:00–21:00</span></li>
+  <li class="li54"><span class="s48"></span><span class="s50">✉</span><span class="s15"> hello@joshua.salon</span></li>
+</ul>
+<p class="p55"><span class="s15">© 2026 </span><span class="s51">约书亚</span><span class="s15"> Joshua Hair Atelier </span><span class="s52">·</span><span class="s15"> All rights reserved</span></p>
+<p class="p56"><span class="s6"></span><br></p>
+<p class="p57"><span class="s15">高端美发</span><span class="s18"> </span><span class="s53">·</span><span class="s18"> </span><span class="s15">精工匠艺</span></p>
+<p class="p58"><span class="s6">立即预约</span><span class="s54"> →</span></p>
+<p class="p59"><span class="s6">&lt;!-- 第二次Git练习 --&gt;</span></p>
 </body>
 </html>
